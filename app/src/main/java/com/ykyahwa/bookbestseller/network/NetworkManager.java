@@ -2,6 +2,9 @@ package com.ykyahwa.bookbestseller.network;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.ykyahwa.bookbestseller.data.BookListData;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,6 +17,11 @@ import java.net.URL;
 public class NetworkManager extends Thread {
 
     private final String INTERPARK_API_URL = "http://book.interpark.com/api/bestSeller.api?key=interpark&categoryId=100&output=json";
+    private NetworkListner listener;
+
+    public NetworkManager(NetworkListner listener) {
+        this.listener = listener;
+    }
 
     private void requestBestSeller() throws IOException {
         URL url = new URL(INTERPARK_API_URL);
@@ -27,9 +35,13 @@ public class NetworkManager extends Thread {
         Log.i("BestSeller", "responseMessage = " + responseMessage);
         byte[] responseByteArray = getResponseByteArray(conn.getInputStream());
 
-        String strResponseJson = new String(responseByteArray, 0, responseByteArray.length,"UTF-8");
-        Log.i("BestSeller", "strResponseJson = " + strResponseJson);
+        String responseJson = new String(responseByteArray, 0, responseByteArray.length,"UTF-8");
+        Log.i("BestSeller", "responseJson = " + responseJson);
+
+        parseData(responseJson);
+
     }
+
 
     private byte[] getResponseByteArray(InputStream is) throws IOException{
         int nReadCount = 0;
@@ -50,6 +62,15 @@ public class NetworkManager extends Thread {
 
         return bos.toByteArray();
     }
+
+    private void parseData(String responseJson) {
+        Gson gson = new Gson();
+        BookListData data = gson.fromJson(responseJson,
+                BookListData.class);
+
+        listener.onBestSelletResponseData(data);
+    }
+
     @Override
     public void run() {
         try {
