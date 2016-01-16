@@ -1,14 +1,15 @@
 package com.ykyahwa.bookbestseller;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.ykyahwa.bookbestseller.data.BookData;
@@ -17,7 +18,6 @@ import com.ykyahwa.bookbestseller.main.adapter.BookListAdapter;
 import com.ykyahwa.bookbestseller.network.NetworkListner;
 import com.ykyahwa.bookbestseller.network.NetworkManager;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
         initialize();
-        new NetworkManager(listener).start();
+        new NetworkManager(networkListner).start();
 
     }
 
@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         bookListView = (ListView) findViewById(R.id.MAIN_LV_BOOK_LIST);
         bookListAdapter = new BookListAdapter(bookDataList);
         bookListView.setAdapter(bookListAdapter);
+        bookListView.setOnItemClickListener(itemClickListener);
     }
 
     @Override
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private NetworkListner listener = new NetworkListner() {
+    private NetworkListner networkListner = new NetworkListner() {
         @Override
         public void onBestSelletResponseData(final BookListData data) {
 
@@ -90,6 +91,15 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
+        }
+    };
+
+    private AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            String url = bookDataList.get(position).getMobileLink();
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            startActivity(intent);
         }
     };
 }
