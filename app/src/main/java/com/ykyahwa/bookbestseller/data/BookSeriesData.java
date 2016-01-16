@@ -12,6 +12,7 @@ public class BookSeriesData {
     private int num5;
     private int num4;
 
+    private String englishName;
 
 
     public int getNum4{
