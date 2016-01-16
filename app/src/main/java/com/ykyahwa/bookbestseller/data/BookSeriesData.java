@@ -9,6 +9,7 @@ public class BookSeriesData {
     private int num2;
     private  int num3;
 
+    private int num5;
     private int num4;
 
 
