@@ -7,7 +7,12 @@ public class BookSeriesData {
     private int seriesCount = 0;
     private int num1;
     private int num2;
+    private int num4;
 
+
+    public int getNum4{
+        return num4;
+    }
     public int getNum1() {
         return num1;
     }
