@@ -10,7 +10,7 @@ public class BookSeriesData {
     private  int num3;
 
     private int num4;
-
+    private String name;
 
 
     public int getNum4{
