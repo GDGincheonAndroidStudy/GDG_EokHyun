@@ -6,6 +6,7 @@ package com.ykyahwa.bookbestseller.data;
 public class BookSeriesData {
     private int num1;
     private int num2;
+    private  int num3;
 
     public int getNum1() {
         return num1;
@@ -13,5 +14,9 @@ public class BookSeriesData {
 
     public int getNum2() {
         return num2;
+    }
+
+    public int getNum3() {
+        return num3;
     }
 }
