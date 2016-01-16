@@ -15,8 +15,8 @@ import android.widget.ListView;
 import com.ykyahwa.bookbestseller.data.BookData;
 import com.ykyahwa.bookbestseller.data.BookListData;
 import com.ykyahwa.bookbestseller.main.adapter.BookListAdapter;
+import com.ykyahwa.bookbestseller.network.NetworkAsyncTask;
 import com.ykyahwa.bookbestseller.network.NetworkListner;
-import com.ykyahwa.bookbestseller.network.NetworkManager;
 
 import java.util.ArrayList;
 
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         initialize();
-        new NetworkManager(networkListner).start();
+        new NetworkAsyncTask(networkListner).execute((Void[]) null);
 
     }
 
