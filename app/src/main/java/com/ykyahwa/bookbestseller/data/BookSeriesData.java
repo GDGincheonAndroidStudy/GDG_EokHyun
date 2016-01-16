@@ -14,7 +14,7 @@ public class BookSeriesData {
     private String name;
 
 
-    public int getNum4{
+    public int getNum4() {
         return num4;
     }
     public int getNum1() {
