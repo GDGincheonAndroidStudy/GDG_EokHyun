@@ -11,11 +11,11 @@ public class BookSeriesData {
 
     private int num5;
     private int num4;
+    private String name;
 
     private String englishName;
 
-
-    public int getNum4{
+    public int getNum4() {
         return num4;
     }
     public int getNum1() {

@@ -10,6 +10,7 @@ public class BookData {
     private String mobileLink;
     private String priceStandard;
     private String rank;
+    private String coverSmallUrl;
 
     public String getTitle() {
         return title;
@@ -57,5 +58,13 @@ public class BookData {
 
     public void setRank(String rank) {
         this.rank = rank;
+    }
+
+    public String getCoverSmallUrl() {
+        return coverSmallUrl;
+    }
+
+    public void setCoverSmallUrl(String coverSmallUrl) {
+        this.coverSmallUrl = coverSmallUrl;
     }
 }
