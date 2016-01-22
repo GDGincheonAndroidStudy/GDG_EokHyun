@@ -35,7 +35,7 @@ public class BookItemView extends LinearLayout {
     public void setData(BookData bookData) {
         ((TextView)findViewById(R.id.BOOK_ITEM_TITLE)).setText(bookData.getTitle());
         ((TextView)findViewById(R.id.BOOK_ITEM_AUTHOR)).setText(bookData.getAuthor());
-        Picasso.with(getContext()).load(bookData.getCoverSmallUrl()).into((ImageView)findViewById(R.id.BOOK_ITEM_IMAGE));
+        Picasso.with(getContext()).load(bookData.getCoverSmallUrl()).into((ImageView) findViewById(R.id.BOOK_ITEM_IMAGE));
 
     }
 
