@@ -8,10 +8,19 @@
     tools:context="com.ykyahwa.bookbestseller.MainActivity"
     tools:showIn="@layout/activity_main">
 
+    <!--
     <ListView
         android:id="@+id/MAIN_LV_BOOK_LIST"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
     </ListView>
+    -->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/MAIN_RV_BOOK_LIST"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical">
+
+    </android.support.v7.widget.RecyclerView>
 </RelativeLayout>

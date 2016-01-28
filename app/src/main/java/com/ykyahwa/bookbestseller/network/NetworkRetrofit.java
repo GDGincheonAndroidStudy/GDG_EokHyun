@@ -31,8 +31,6 @@ public class NetworkRetrofit {
         String BESTSELLER_QUERY = "/api/bestSeller.api?key=interpark&categoryId=100&output=json";
 
         @GET(BESTSELLER_QUERY)
-        Call<BookListData> getBestSeller(
-//                Callback<BookListData> callback
-        );
+        Call<BookListData> getBestSeller();
     }
 }

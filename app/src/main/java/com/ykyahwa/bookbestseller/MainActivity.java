@@ -5,17 +5,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.ykyahwa.bookbestseller.data.BookData;
 import com.ykyahwa.bookbestseller.data.BookListData;
-import com.ykyahwa.bookbestseller.main.adapter.BookListAdapter;
+import com.ykyahwa.bookbestseller.main.adapter.BookRecyclerViewAdapter;
 import com.ykyahwa.bookbestseller.network.NetworkListner;
 import com.ykyahwa.bookbestseller.network.NetworkRetrofit;
 
@@ -26,8 +27,13 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ListView bookListView;
-    private BookListAdapter bookListAdapter;
+//    private ListView bookListView;
+
+    private RecyclerView bookRecyclerView;
+    private RecyclerView.Adapter recyclerViewAdapter;
+    private RecyclerView.LayoutManager recyclerViewLayoutManager;
+
+//    private BookListAdapter bookListAdapter;
     private ArrayList<BookData> bookDataList = new ArrayList<>();
 
     @Override
@@ -48,10 +54,21 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void initialize() {
-        bookListView = (ListView) findViewById(R.id.MAIN_LV_BOOK_LIST);
-        bookListAdapter = new BookListAdapter(bookDataList);
-        bookListView.setAdapter(bookListAdapter);
-        bookListView.setOnItemClickListener(itemClickListener);
+//        bookListView = (ListView) findViewById(R.id.MAIN_LV_BOOK_LIST);
+//        bookListAdapter = new BookListAdapter(bookDataList);
+//        bookListView.setAdapter(bookListAdapter);
+//        bookListView.setOnItemClickListener(itemClickListener);
+
+        bookRecyclerView = (RecyclerView) findViewById(R.id.MAIN_RV_BOOK_LIST);
+        bookRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        recyclerViewLayoutManager = new LinearLayoutManager(this);
+        bookRecyclerView.setLayoutManager(recyclerViewLayoutManager);
+
+        // specify an adapter (see also next example)
+        recyclerViewAdapter = new BookRecyclerViewAdapter(this, bookDataList);
+        bookRecyclerView.setAdapter(recyclerViewAdapter);
     }
 
     @Override
@@ -110,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         bookDataList.clear();
 
         bookDataList.addAll(newBookDataList);
-        bookListAdapter.notifyDataSetChanged();
+//        bookListAdapter.notifyDataSetChanged();
     }
 
     private AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
