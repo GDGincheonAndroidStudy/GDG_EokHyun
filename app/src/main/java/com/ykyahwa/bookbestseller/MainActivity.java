@@ -13,10 +13,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.ykyahwa.bookbestseller.data.BookData;
 import com.ykyahwa.bookbestseller.data.BookListData;
 import com.ykyahwa.bookbestseller.data.BookRealmData;
+import com.ykyahwa.bookbestseller.main.adapter.BookListAdapter;
 import com.ykyahwa.bookbestseller.main.adapter.BookRealmSearchAdapter;
 import com.ykyahwa.bookbestseller.main.adapter.BookRecyclerViewAdapter;
 import com.ykyahwa.bookbestseller.network.NetworkListner;
@@ -33,13 +35,13 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-//    private ListView bookListView;
+    private ListView bookListView;
 
     private RecyclerView bookRecyclerView;
     private RecyclerView.Adapter recyclerViewAdapter;
     private RecyclerView.LayoutManager recyclerViewLayoutManager;
 
-//    private BookListAdapter bookListAdapter;
+    private BookListAdapter bookListAdapter;
     private ArrayList<BookData> bookDataList = new ArrayList<>();
 
     private Realm realm;
@@ -50,36 +52,37 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        initialize();
+//        initListView();
+//        initRecyclerView();
+        initRealmSearchView();
+
         //AsyncTask
 //        new NetworkAsyncTask(networkListner).execute((Void[]) null);
-
-
         new NetworkRetrofit().request(callback);
 
     }
 
+    private void initListView() {
+        bookListView = (ListView) findViewById(R.id.MAIN_LV_BOOK_LIST);
+        bookListAdapter = new BookListAdapter(bookDataList);
+        bookListView.setAdapter(bookListAdapter);
+        bookListView.setOnItemClickListener(itemClickListener);
+    }
 
-    private void initialize() {
-        //ListView
-//        bookListView = (ListView) findViewById(R.id.MAIN_LV_BOOK_LIST);
-//        bookListAdapter = new BookListAdapter(bookDataList);
-//        bookListView.setAdapter(bookListAdapter);
-//        bookListView.setOnItemClickListener(itemClickListener);
+    private void initRecyclerView() {
+        bookRecyclerView = (RecyclerView) findViewById(R.id.MAIN_RV_BOOK_LIST);
+        bookRecyclerView.setHasFixedSize(true);
 
-        //RecyclerView
-//        bookRecyclerView = (RecyclerView) findViewById(R.id.MAIN_RV_BOOK_LIST);
-//        bookRecyclerView.setHasFixedSize(true);
-//
-//        // use a linear layout manager
-//        recyclerViewLayoutManager = new LinearLayoutManager(this);
-//        bookRecyclerView.setLayoutManager(recyclerViewLayoutManager);
-//
-//        // specify an adapter (see also next example)
-//        recyclerViewAdapter = new BookRecyclerViewAdapter(this, bookDataList);
-//        bookRecyclerView.setAdapter(recyclerViewAdapter);
+        // use a linear layout manager
+        recyclerViewLayoutManager = new LinearLayoutManager(this);
+        bookRecyclerView.setLayoutManager(recyclerViewLayoutManager);
 
-        //RealmSearchView
+        // specify an adapter (see also next example)
+        recyclerViewAdapter = new BookRecyclerViewAdapter(this, bookDataList);
+        bookRecyclerView.setAdapter(recyclerViewAdapter);
+    }
+
+    private void initRealmSearchView() {
         resetRealm();
 
         RealmSearchView realmSearchView = (RealmSearchView) findViewById(R.id.search_view);
@@ -88,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
         BookRealmSearchAdapter adapter = new BookRealmSearchAdapter(this, realm, "title");
         realmSearchView.setAdapter(adapter);
     }
+
 
     @Override
     protected void onDestroy() {

@@ -8,27 +8,27 @@
     tools:context="com.ykyahwa.bookbestseller.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <!--
+
     <ListView
         android:id="@+id/MAIN_LV_BOOK_LIST"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
 
-    </ListView>
-    -->
-    <!--
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/MAIN_RV_BOOK_LIST"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical">
+        android:scrollbars="vertical"
+        android:visibility="gone"
+        />
 
-    </android.support.v7.widget.RecyclerView>
-    -->
     <co.moonmonkeylabs.realmsearchview.RealmSearchView
         android:id="@+id/search_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:rsvHint="@string/search_hint"
+
         />
 </RelativeLayout>
