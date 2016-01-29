@@ -16,12 +16,18 @@ import android.widget.AdapterView;
 
 import com.ykyahwa.bookbestseller.data.BookData;
 import com.ykyahwa.bookbestseller.data.BookListData;
+import com.ykyahwa.bookbestseller.data.BookRealmData;
+import com.ykyahwa.bookbestseller.main.adapter.BookRealmSearchAdapter;
 import com.ykyahwa.bookbestseller.main.adapter.BookRecyclerViewAdapter;
 import com.ykyahwa.bookbestseller.network.NetworkListner;
 import com.ykyahwa.bookbestseller.network.NetworkRetrofit;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import co.moonmonkeylabs.realmsearchview.RealmSearchView;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import retrofit2.Callback;
 import retrofit2.Response;
 
@@ -36,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 //    private BookListAdapter bookListAdapter;
     private ArrayList<BookData> bookDataList = new ArrayList<>();
 
+    private Realm realm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,21 +61,41 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void initialize() {
+        //ListView
 //        bookListView = (ListView) findViewById(R.id.MAIN_LV_BOOK_LIST);
 //        bookListAdapter = new BookListAdapter(bookDataList);
 //        bookListView.setAdapter(bookListAdapter);
 //        bookListView.setOnItemClickListener(itemClickListener);
 
-        bookRecyclerView = (RecyclerView) findViewById(R.id.MAIN_RV_BOOK_LIST);
-        bookRecyclerView.setHasFixedSize(true);
+        //RecyclerView
+//        bookRecyclerView = (RecyclerView) findViewById(R.id.MAIN_RV_BOOK_LIST);
+//        bookRecyclerView.setHasFixedSize(true);
+//
+//        // use a linear layout manager
+//        recyclerViewLayoutManager = new LinearLayoutManager(this);
+//        bookRecyclerView.setLayoutManager(recyclerViewLayoutManager);
+//
+//        // specify an adapter (see also next example)
+//        recyclerViewAdapter = new BookRecyclerViewAdapter(this, bookDataList);
+//        bookRecyclerView.setAdapter(recyclerViewAdapter);
 
-        // use a linear layout manager
-        recyclerViewLayoutManager = new LinearLayoutManager(this);
-        bookRecyclerView.setLayoutManager(recyclerViewLayoutManager);
+        //RealmSearchView
+        resetRealm();
 
-        // specify an adapter (see also next example)
-        recyclerViewAdapter = new BookRecyclerViewAdapter(this, bookDataList);
-        bookRecyclerView.setAdapter(recyclerViewAdapter);
+        RealmSearchView realmSearchView = (RealmSearchView) findViewById(R.id.search_view);
+
+        realm = Realm.getInstance(this);
+        BookRealmSearchAdapter adapter = new BookRealmSearchAdapter(this, realm, "title");
+        realmSearchView.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (realm != null) {
+            realm.close();
+            realm = null;
+        }
     }
 
     @Override
@@ -126,10 +153,30 @@ public class MainActivity extends AppCompatActivity {
     private void dataChange(ArrayList<BookData> newBookDataList) {
         bookDataList.clear();
 
+
         bookDataList.addAll(newBookDataList);
 //        bookListAdapter.notifyDataSetChanged();
+
+
+        List<BookRealmData> realmDataList = new ArrayList<>();
+        for (BookData serverBookData : newBookDataList) {
+            realmDataList.add(new BookRealmData(serverBookData));
+        }
+
+        Realm realm = Realm.getInstance(this);
+        realm.beginTransaction();
+        realm.copyToRealm(realmDataList);
+        realm.commitTransaction();
+        realm.close();
     }
 
+    private void resetRealm() {
+        RealmConfiguration realmConfig = new RealmConfiguration
+                .Builder(this)
+                .deleteRealmIfMigrationNeeded()
+                .build();
+        Realm.deleteRealm(realmConfig);
+    }
     private AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.ykyahwa.bookbestseller.R;
 import com.ykyahwa.bookbestseller.data.BookData;
+import com.ykyahwa.bookbestseller.data.BookRealmData;
 
 /**
  * Created by ehlee on 2016-01-15.
@@ -33,6 +34,12 @@ public class BookItemView extends LinearLayout {
     }
 
     public void setData(BookData bookData) {
+        ((TextView)findViewById(R.id.BOOK_ITEM_TITLE)).setText(bookData.getTitle());
+        ((TextView)findViewById(R.id.BOOK_ITEM_AUTHOR)).setText(bookData.getAuthor());
+        Picasso.with(getContext()).load(bookData.getCoverSmallUrl()).into((ImageView) findViewById(R.id.BOOK_ITEM_IMAGE));
+
+    }
+    public void setData(BookRealmData bookData) {
         ((TextView)findViewById(R.id.BOOK_ITEM_TITLE)).setText(bookData.getTitle());
         ((TextView)findViewById(R.id.BOOK_ITEM_AUTHOR)).setText(bookData.getAuthor());
         Picasso.with(getContext()).load(bookData.getCoverSmallUrl()).into((ImageView) findViewById(R.id.BOOK_ITEM_IMAGE));
