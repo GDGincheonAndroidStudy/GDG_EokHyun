@@ -20,12 +20,12 @@ public class NetworkRetrofit {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        InterpartService service = retrofit.create(InterpartService.class);
+        InterparkService service = retrofit.create(InterparkService.class);
         Call<BookListData> call = service.getBestSeller();
         call.enqueue(callback);
     }
 
-    public interface InterpartService {
+    public interface InterparkService {
 
 
         String BESTSELLER_QUERY = "/api/bestSeller.api?key=interpark&categoryId=100&output=json";

@@ -24,7 +24,7 @@
         android:visibility="gone"
         />
 
-    <co.moonmonkeylabs.realmsearchview.RealmSearchView
+    <com.ykyahwa.bookbestseller.main.component.CustomRealmSearchView
         android:id="@+id/search_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

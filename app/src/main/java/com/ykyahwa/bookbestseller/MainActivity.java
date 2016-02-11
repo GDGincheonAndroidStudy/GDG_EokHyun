@@ -21,13 +21,13 @@ import com.ykyahwa.bookbestseller.data.BookRealmData;
 import com.ykyahwa.bookbestseller.main.adapter.BookListAdapter;
 import com.ykyahwa.bookbestseller.main.adapter.BookRealmSearchAdapter;
 import com.ykyahwa.bookbestseller.main.adapter.BookRecyclerViewAdapter;
+import com.ykyahwa.bookbestseller.main.component.CustomRealmSearchView;
 import com.ykyahwa.bookbestseller.network.NetworkListner;
 import com.ykyahwa.bookbestseller.network.NetworkRetrofit;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import co.moonmonkeylabs.realmsearchview.RealmSearchView;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import retrofit2.Callback;
@@ -36,6 +36,8 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     private ListView bookListView;
+
+    private CustomRealmSearchView realmSearchView;
 
     private RecyclerView bookRecyclerView;
     private RecyclerView.Adapter recyclerViewAdapter;
@@ -85,11 +87,22 @@ public class MainActivity extends AppCompatActivity {
     private void initRealmSearchView() {
         resetRealm();
 
-        RealmSearchView realmSearchView = (RealmSearchView) findViewById(R.id.search_view);
+        realmSearchView = (CustomRealmSearchView) findViewById(R.id.search_view);
 
         realm = Realm.getInstance(this);
         BookRealmSearchAdapter adapter = new BookRealmSearchAdapter(this, realm, "title");
         realmSearchView.setAdapter(adapter);
+
+        findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (realmSearchView.getVisibleSearchBar() == View.VISIBLE) {
+                    realmSearchView.setVisibleSearchBar(View.GONE);
+                } else {
+                    realmSearchView.setVisibleSearchBar(View.VISIBLE);
+                }
+            }
+        });
     }
 
 
